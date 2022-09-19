@@ -16,67 +16,37 @@
         <div class = "navbar navbar-default">
             <h1 v-text = "sitename"></h1>
         </div>
-        <div class ="nav navbar-nav navbar-right cart">
-            <span class = "glyphicon glyphicon-shopping-cart">
-                장바구니 {{cartItemCount}}
-            </span>
+        <div class ="nav justify-content-end cart">
+            <button type="button" class = "btn btn-default btn-lg" @click="showCheckout">
+                <span>장바구니 {{cartItemCount}}</span>
+                <span>주문하기</span>
+            </button>
         </div>
     </header>    
     <main>
         <div class="row product">
-            <div class="col">
-                <figure>
-                    <img :src="product.image" alt="">
-                </figure>
+            <div v-if ="showProduct" class = "row">
+                <div class="col">
+                    <figure>
+                        <img :src="product.image" alt="">
+                    </figure>
+                </div>
+                <div class = "col col-expand">
+                    <h1 v-text = "product.title"></h1>
+                    <p v-html = "product.description"></p>
+                    <p>{{product.price | formatPrice}}</p>
+                    <p>현재 재고량: {{remaindInventory}}</p>
+                    <button v-if= "canAddToCart" class="btn btn-primary btn-lg" @click="addToCart">장바구니 담기</button>
+                    <button v-else= "canAddToCart" class="btn btn-secondery btn-lg">장바구니 담기</button>
+                    <button class="btn btn-primary btn-lg" @click="cleanToCart">장바구니 비우기</button>
+                    <p><Script>document.write(localStorage.getItem('itemCount'))</Script></p>
+                </div>
             </div>
-            <div class = "col col-expand">
-                <h1 v-text = "product.title"></h1>
-                <p v-html = "product.description"></p>
-                <p>{{product.price | formatPrice}}</p>
-                <button class="btn btn-primary btn-lg" @click="addToCart">장바구니 담기</button>
+            <div v-else>주문하기 화면이 들어갈 자리 </div>
             </div>
-        </div>
+            
     </main>
     </div>
-    <!-- start test-->
-    <div id ="test">
-        <p>가로 : {{width}}</p>
-        <p>세로 : {{length}}</p>
-        <p>넓이 : {{area}}</p>
-        <p>
-            <button @click="length += 1">세로값 1 증가</button>
-            <button @click="width += 1">가로값 1 증가</button>
-        </p>
-    </div>
-    <!-- end test-->
-    <script>
-        let test = new Vue({
-            el: '#test',
-            data : {
-                length : 5,
-                width : 3
-            },
-            computed: {
-                area : function() {
-                    return this.width * this.length;
-                }
-            },
-            watch: {
-                length(newVal, oldVal) {
-                    console.log('이전 세로길이: ' + oldVal + '\n새 새로길이' + newVal);
-                },
-                width(newVal, oldVal) {
-                    console.log('이전 가로길이: ' + oldVal + '\n새 가로길이' + newVal);
-                },
-                area(newVal, oldVal) {
-                    console.log('이전 넓이: ' + oldVal + '\n새 넓이' + newVal);
-                }
-            },
-            beforeUpdate() {
-                console.log ('데이터 변경은 결괏값 변경 이전에 이루어졌습니다.');
-            }
-        })
-        </script>
     <script>
         var APP_LOG_LIFECYCLE_EVENTS = true;
         function w(msg){
@@ -97,12 +67,20 @@
                     image : "assets/images/product-fullsize.png",
                     inventory: 5,
                 },
-                cart:[]
+                cart:[],
+                showProduct: true,
             },
             computed: { 
                 cartItemCount() {
                     return this.cart.length
-                }
+                },
+                remaindInventory() {
+                let v = this.product.inventory - this.cart.length;
+                return v > 0 ? `${v}개` : `없음`
+                },
+                canAddToCart() {
+                    return this.product.inventory > this.cartItemCount;
+                },                
             },
             filters: {
                 formatPrice(price) {
@@ -116,14 +94,23 @@
                 addToCart: function() {
                     if(this.product.inventory > this.cart.length){
                         this.cart.push(this.product.id);
+                        localStorage.setItem("itemCount", this.cartItemCount);
                     }else {
                         alert("인벤토리에 있는 수량을 초과 하였습니다.")
                     }
-                    
-                }
+                },
+                showCheckout() {
+                    if(this.cartItemCount == 0){
+                        alert("장바구니가 비어 있습니다.")
+                    }else {
+                    this.showProduct = !!!this.showProduct
+                    }
+                },
+                cleanToCart() {
+                    this.cart.splice(0);
+                    localStorage.setItem("itemCount", this.cartItemCount = 0);
+                },
             }
-                
-            
         });
     </script>
 </body>
