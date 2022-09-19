@@ -48,10 +48,10 @@
     </main>
     </div>
     <script>
-        let getItemCount = localStorage.getItem('itemCount')
+        let getItemCount = localStorage.getItem('itemCount') / 1
         alert(getItemCount)
         window.onload = function() {
-            for(let i = 0 ; i < localStorage.getItem('itemCount'); i++) {
+            for(let i = 0 ; i < getItemCount; i++) {
                 webstore.addToCart()
             }
         }
@@ -103,8 +103,6 @@
                         this.cart.push(this.product.id);
                         localStorage.setItem("itemCount",JSON.stringify(this.cart.length));
                     }
-                    
-
                 },
                 showCheckout() {
                     if(this.cartItemCount == 0){
