@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <link herf="assets/css/" rel="stylesheet" type ="text/css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <script></script>
 </head>
 <body>
     <div id = "app">
@@ -39,7 +40,6 @@
                     <button v-if= "canAddToCart" class="btn btn-primary btn-lg" @click="addToCart">장바구니 담기</button>
                     <button v-else= "canAddToCart" class="btn btn-secondery btn-lg">장바구니 담기</button>
                     <button class="btn btn-primary btn-lg" @click="cleanToCart">장바구니 비우기</button>
-                    <p><Script>document.write(localStorage.getItem('itemCount'))</Script></p>
                 </div>
             </div>
             <div v-else>주문하기 화면이 들어갈 자리 </div>
@@ -48,6 +48,13 @@
     </main>
     </div>
     <script>
+        let getItemCount = localStorage.getItem('itemCount')
+        alert(getItemCount)
+        window.onload = function() {
+            for(let i = 0 ; i < localStorage.getItem('itemCount'); i++) {
+                webstore.addToCart()
+            }
+        }
         var APP_LOG_LIFECYCLE_EVENTS = true;
         function w(msg){
             if(APP_LOG_LIFECYCLE_EVENTS) {
@@ -94,10 +101,10 @@
                 addToCart: function() {
                     if(this.product.inventory > this.cart.length){
                         this.cart.push(this.product.id);
-                        localStorage.setItem("itemCount", this.cartItemCount);
-                    }else {
-                        alert("인벤토리에 있는 수량을 초과 하였습니다.")
+                        localStorage.setItem("itemCount",JSON.stringify(this.cart.length));
                     }
+                    
+
                 },
                 showCheckout() {
                     if(this.cartItemCount == 0){
@@ -108,7 +115,7 @@
                 },
                 cleanToCart() {
                     this.cart.splice(0);
-                    localStorage.setItem("itemCount", this.cartItemCount = 0);
+                    localStorage.setItem("itemCount",JSON.stringify(this.cart.length = 0));
                 },
             }
         });
