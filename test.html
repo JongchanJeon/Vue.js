@@ -1,0 +1,1352 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>대왕암공원</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="naver-site-verification" content="26d3f1a06d8561018212bcba3f15c1d9eba625a5"/>
+<link rel="stylesheet" href="/css/bootstrap.css" />
+<link rel="stylesheet" href="/css/bootstrap-theme.css" />
+<link rel="stylesheet" href="/css/basic.css" />
+<link rel="stylesheet" href="/css/menu.css" />
+<link rel="stylesheet" href="/css/common.css" />
+<link rel="stylesheet" href="/css/dawangam_main.css" />
+<link rel="stylesheet" href="/css/dawangam_sub.css" />
+<script src="/js/wcms/jquery-1.12.1.min.js" type="text/javascript"></script>
+<script src="/js/wcms/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/js/touchToscroll.js" type="text/javascript"></script>
+<script src="/js/menu.js" type="text/javascript"></script>
+<script src="/js/front/b842ace6e2.js"></script>
+
+<link rel="stylesheet" href="/plug-in/bxslider/jquery.bxslider.css" />
+<script src="/plug-in/bxslider/jquery.bxslider.js"></script>
+
+</head>
+
+
+
+<body>
+
+<script type="text/javascript">
+	
+	$(function() {
+	
+	var url = $(location).attr('href');
+	
+	if(url.indexOf("http://")>-1){
+		var goUrl = url.replace("http://","https://");
+		location.href=goUrl;
+	}
+		
+});
+	function activeGNB(id) {
+		for (num = 1; num <= 5; num++)
+			document.getElementById('main_nav' + num).style.display = 'none'; //D2MG1~D2MG5 까지 숨긴 다음
+		document.getElementById(id).style.display = 'block'; //해당 ID만 보임
+	}
+</script>
+
+
+<script>
+	var optionSlider, mainSlider, pagingSlider, resizeTimer, defaultOptionSlider, alertEvents;
+	var alertEvent = {
+		param : {
+			alertInterval : null,
+			defaultSliderTime : 500,
+			defaultHoldTime : 4000
+		},
+		animateOn : function() {
+			var paramSliderTime = this.param.defaultSliderTime;
+			var paramHoldTime = this.param.defaultHoldTime;
+			this.param.alertInterval = setInterval(
+					function() {
+						var currentEl = $('#alert ul li.on');
+						var nextEl = (currentEl.index() + 1 === $('#alert ul li').length) ? $('#alert ul li:first')
+								: $('#alert ul li.on + li');
+						$(currentEl.selector).css({
+							'top' : '0'
+						});
+						$(currentEl.selector + ',' + nextEl.selector).stop()
+								.animate({
+									'top' : '-=39'
+								}, paramSliderTime, function() {
+									currentEl.removeClass('on').css({
+										'top' : '39px'
+									});
+									nextEl.addClass('on');
+								});
+					}, paramHoldTime);
+		},
+
+		animateOf : function() {
+			clearInterval(this.param.alertInterval);
+			this.param.alertInterval = null;
+		},
+		focusOn : function(el) {
+			clearInterval(this.param.alertInterval);
+			this.param.alertInterval = null;
+			$('#alert ul li').css({
+				'top' : '0'
+			});
+			$('#alert ul li').removeClass('on').css({
+				'top' : '+=39'
+			});
+			el.stop().addClass('on').css({
+				'top' : '0'
+			});
+			/*el.stop().addClass('on').css({'top' : '0'}).siblings().each(function(){
+				$(this).stop().removeClass('on').css({'top' : '39px'});
+			});*/
+		},
+		focusOf : function() {
+			this.animateOn();
+		}
+	};
+	$(document).ready(function() {
+
+		//알려드립니다 스크롤
+		alertEvent.param.defaultHoldTime = 5000;
+		alertEvent.param.defaultSliderTime = 600;
+
+		alertEvent.animateOn();
+
+		$('#alert ul').on('mouseenter', function() {
+			alertEvent.animateOf();
+		}).on('mouseleave', function() {
+			alertEvent.animateOn();
+		});
+		$('#alert ul li a').on('focus', function() {
+			alertEvent.focusOn($(this).parent());
+		}).on('focusout', function() {
+			alertEvent.focusOf();
+		});
+		init();
+	});
+
+
+//팝업
+function init(){
+	var cookiedata = document.cookie;	
+	var layerCount = 5;  // 레이어팝업갯수는 꼭 조정
+	for(var i=1 ; i<=layerCount ; i++) {
+		if ( cookiedata.indexOf("_maindiv"+i+"=done") < 0 ) {
+			$('#_divpop'+i).css('visibility','visible');
+		} else {
+			$('#_divpop'+i).css('visibility','hidden');
+		}
+		$('#_divpop'+i).draggable();
+	}	
+}
+
+function closeWin(layerNum) {
+	if ( document.getElementById("_layer_chkbox"+layerNum).checked ){
+		setCookie( "_maindiv"+layerNum, "done" , 1 );
+	}
+	$('#_divpop'+layerNum).css('visibility','hidden');
+	//document.all['_divpop'+layerNum].style.visibility = "hidden";
+}
+
+function closeWin2(layerNum) {
+
+	$('#_divpop'+layerNum).css('visibility','hidden');
+	//document.all['_divpop'+layerNum].style.visibility = "hidden";
+}
+
+function setCookie( name, value, expiredays ) {
+	var todayDate = new Date();
+	todayDate.setDate( todayDate.getDate() + expiredays );
+	document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+</script>
+
+<!-- 레이어팝업 영역 -->
+<style>
+#_divpop1{
+	left: 1%;
+    top: 10px;
+    z-index: 100000;
+    width: 450px;
+    visibility: visible;}
+#_divpop2{
+	left: 23%;
+    top: 10px;
+    z-index: 100001;
+    width: 470px;
+    visibility: visible;}
+#_divpop3{    
+	left: 45%;
+    top: 10px;
+    z-index: 100001;
+    width: 370px;
+    visibility: visible;}
+/*
+#_divpop4{    
+	left: 69%;
+    top: 10px;
+    z-index: 100001;
+    width: 420px;
+    visibility: visible;}
+	*/
+#_divpop4{    
+	left: 62%;
+    top: 10px;
+    z-index: 100001;
+    width: 460px;
+    visibility: visible;}
+#_divpop5{    
+	left: 80%;
+    top: 10px;
+    z-index: 100001;
+    width: 380px;
+    visibility: visible;}
+.divpopup { position: absolute; border: 5px solid rgb(0, 0, 0); padding: 0px; margin: 0px; cursor:move; }
+
+@media screen and (max-width: 650px) { 
+	.divpopup { width:97%; }
+	#_divpop1{ width:97%; left: 1%;}
+	#_divpop2{ width:97%; left: 2%;}
+	#_divpop3{ width:97%; left: 3%;}
+	#_divpop4{ width:97%; left: 4%;}
+	#_divpop5{ width:97%; left: 4%;}
+}
+</style>
+
+<div id="_divpop1" class="divpopup">
+	<table cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>
+					<img src="/images/popup/220405_popup_03_2.png" style="width: 100%" alt="[사회적 거리두기 2단계 연장에 따른 5인이상 집합금지 협조 안내]">
+				</td>
+			</tr>
+			<tr>
+				<td align="right" style="background: #000;">
+					<input type="checkbox" name="_layer_chkbox1" id="_layer_chkbox1" value="checkbox" checked="checked"> <span style="font-size: 12px; color: #fff;">오늘 하루 이 창을 열지 않음</span>
+					<a href="#" onclick="closeWin(1)"><span style="font-size: 12px; color: #fff;">[닫기]</span> </a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div id="_divpop2" class="divpopup">
+	<table cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>
+					<img src="/images/popup/220321_popup_2.png" style="width: 100%" alt="출렁다리 안내">
+				</td>
+			</tr>
+			<tr>
+				<td align="right" style="background: #000;">
+					<input type="checkbox" name="_layer_chkbox2" id="_layer_chkbox2" value="checkbox" checked="checked"> <span style="font-size: 12px; color: #fff;">오늘 하루 이 창을 열지 않음</span>
+					<a href="#" onclick="closeWin(2)"><span style="font-size: 12px; color: #fff;">[닫기]</span> </a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div id="_divpop3" class="divpopup">
+	<table cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>
+					<img src="/images/popup/220113_popup.jpg" style="width: 100%" alt="태화강역-대왕암공원 대중교통안내">
+				</td>
+			</tr>
+			<tr>
+				<td align="right" style="background: #000;">
+					<input type="checkbox" name="_layer_chkbox3" id="_layer_chkbox3" value="checkbox" checked="checked"> <span style="font-size: 12px; color: #fff;">오늘 하루 이 창을 열지 않음</span>
+					<a href="#" onclick="closeWin(3)"><span style="font-size: 12px; color: #fff;">[닫기]</span> </a></td>
+			</tr>
+		</tbody>
+	</table>
+</div> 
+
+<div id="_divpop4" class="divpopup">
+	<table cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>
+					<!--<a href="https://www.ulsan.go.kr/s/uam/bbs/list.ulsan?bbsId=BBS_0000000000000174&mId=001003001000000000" target="_blank">-->
+					<img src="/images/popup/220726_popup_02.png" style="width: 100%" alt="긴급 서버 점검 안내">
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" style="background: #000;">
+					<input type="checkbox" name="_layer_chkbox4" id="_layer_chkbox4" value="checkbox" checked="checked"> <span style="font-size: 12px; color: #fff;">오늘 하루 이 창을 열지 않음</span>
+					<a href="#" onclick="closeWin2(4)"><span style="font-size: 12px; color: #fff;">[닫기]</span> </a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div id="_divpop5" class="divpopup">
+	<table cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>
+					<img src="/images/popup/220822_popup.png" style="width: 100%" alt="전기차충전기 고장 안내">
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" style="background: #000;">
+					<input type="checkbox" name="_layer_chkbox5" id="_layer_chkbox5" value="checkbox" checked="checked"> <span style="font-size: 12px; color: #fff;">오늘 하루 이 창을 열지 않음</span>
+					<a href="#" onclick="closeWin2(5)"><span style="font-size: 12px; color: #fff;">[닫기]</span> </a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- 레이어팝업 영역 -->
+
+	<div class="container-fluid">
+		<header>
+			<!--탑 라인01 시작-->
+			<div class="row header_top_01 m_none">
+				<div class="max-wrap">
+
+					<div class="fLeft header_top_0101">
+						<h1><a href="#carousel1">본문바로가기</a></h1>
+						<ul>
+							<li><a href="/" target="_self" title="울산대왕암공원 홈으로" class="active"><img src="/images/main_top_ico01.png" alt ="대왕암공원"/>대왕암공원</a></li>
+							<li><a href="/camping/main.do" target="_self" title="대왕암공원캠핑장 홈으로"><img src="/images/main_top_ico02.png" alt="대왕암공원캠핑장"/>
+							대왕암공원캠핑장</a></li>
+						</ul>
+					</div>
+					<!--header_top_0101-->
+
+					<div class="fRight header_top_0102">
+						<ul>
+							<li><a href="/" target="_self" title="울산대왕암공원 메인으로" class="active">메인</a></li>
+							<li><a href="/siteMap.do" target="_self" title="사이트맵">사이트맵</a></li>
+							<li>
+								
+									<a href="/login.do?prePage=/main.do" target="_self" title="로그인">로그인</a>
+								
+							</li>
+						</ul>
+					</div>
+					<!--header_top_0102-->
+
+				</div>
+			</div>
+			<!--탑 라인01 끝-->
+
+			<!--탑 라인02 시작-->
+
+			<div class="row header_top_02">
+				<div class="max-wrap">
+					<div class="fLeft main_logo">
+						<a href="/" target="_self" title="울산대왕암공원 홈으로"><img src="/images/daewangam/logo.png" alt="울산대왕암공원 로고" /></a>
+					</div>
+					<div class="fRight main_weather m_none">
+						<div>
+							<!--<img id="weather_icon" src="/images/icon/weather_icon/1.svg" style="cursor: pointer;" onclick="goWeather();" />-->
+						</div>
+						<div>
+							<b id="temperature"></b>
+						</div>
+						<div>
+							<span id="date"></span><br /> <span id="wind"></span>
+						</div>
+					</div>
+					<div class="fRight main_weather pc_none">
+						<div>
+							<!--<img id="weather_icon_m" src="/images/icon/weather_icon/1.svg" style="cursor: pointer;" onclick="goWeather();" />-->
+						</div>
+						<div>
+							<b id="temperatureM"></b>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--탑 라인02 끝-->
+
+
+			<!--탑 라인03 글로벌 네비 시작-->
+			<div class="row header_top_03">
+				<nav id="nav" role="navigation">
+					<a href="#nav" title="Show navigation">Show navigation</a> <a title="Hide navigation">Hide navigation</a>
+					<ul class="clearfix">
+					  <li class="pc_none gotocam"><a href="/camping/main.do" class="bggray">대왕암공원 캠핑장 바로가기</a></li>
+						
+							<li><a href="Pgintroduce.do" aria-haspopup="true" onfocus="activeGNB('main_nav1');"><span>공원소개</span></a>
+								<ul id="main_nav1">
+									
+										
+										
+											
+												
+												<li><a href="Pgintroduce.do" target="_self">인사말씀</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pginfo.do" target="_self">공원소개</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgguidance.do" target="_self">홍보동영상</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgstret.do" target="_self">오시는길</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+								</ul></li>
+						
+							<li><a href="Pgswaybridge.do" aria-haspopup="true" onfocus="activeGNB('main_nav2');"><span>시설안내</span></a>
+								<ul id="main_nav2">
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgswaybridge.do" target="_self">출렁다리</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgparkprevew2.do" target="_self">울기등대</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgparkprevew3.do" target="_self">미르놀이터</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgparkprevew4.do" target="_self">미로원</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgparkprevew5.do" target="_self">소리체험관</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+										
+											
+												
+												
+												
+												
+												<li><a href="http://www.uic.or.kr/inuri/main/mainPage.do" target="_blank">어린이테마파크</a></li>
+											
+										
+										
+									
+								</ul></li>
+						
+							<li><a href="Pgrecomend1.do" aria-haspopup="true" onfocus="activeGNB('main_nav3');"><span>둘레길안내</span></a>
+								<ul id="main_nav3">
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgrecomend1.do" target="_self">바닷가길</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgrecomend2.do" target="_self">전설바위길</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgrecomend3.do" target="_self">송림길</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgrecomend4.do" target="_self">사계절길</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+								</ul></li>
+						
+							<li><a href="Pgcfrtrrsrt1.do" aria-haspopup="true" onfocus="activeGNB('main_nav4');"><span>대왕암풍경</span></a>
+								<ul id="main_nav4">
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgcfrtrrsrt1.do" target="_self">대왕교야경</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgcfrtrrsrt2.do" target="_self">송림</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgcfrtrrsrt3.do" target="_self">슬도</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												<li><a href="Pgcfrtrrsrt4.do" target="_self">대왕암공원의 자연</a></li>
+												
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+								</ul></li>
+						
+							<li><a href="/BBS_001List.do" aria-haspopup="true" onfocus="activeGNB('main_nav5');"><span>커뮤니티</span></a>
+								<ul id="main_nav5">
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												
+												<li><a href="BBS_001List.do" target="_self">공지사항</a></li>
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												
+												<li><a href="BBS_011List.do" target="_self">자주하는질문</a></li>
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												
+												<li><a href="BBS_021List.do" target="_self">Q&A</a></li>
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+										
+									
+										
+										
+											
+												
+												
+												<li><a href="BBS_031List.do" target="_self">사진후기</a></li>
+												
+												
+											
+										
+										
+									
+										
+									
+										
+									
+										
+									
+								</ul></li>
+						
+						<li class="pc_none gotocam">
+						 <a href="/login.do" target="_self" title="로그인"  class="bggray">로그인</a> </li>
+						 <li class="pc_none gotocam"><a href="/siteMap.do"  class="bggray">사이트맵</a></li>
+						
+					</ul>
+
+				</nav>
+
+				<script>
+					$(function() {
+						$('#nav li:has(ul)').doubleTapToGo();
+					});
+				</script>
+
+			</div>
+			<!--탑 라인03 글로벌 네비 끝-->
+
+
+		</header>
+
+		<!--헤더 끝-->
+
+
+
+
+
+
+		<!--메인 컨텐츠 시작-->
+		<section>
+
+			<div class="row main_con_01">
+
+				<article>
+					<!-- 뉴스 바 시작-->
+					<div class="top_news">
+						<!-- <div class="max-wrap">
+				<h2>알려드립니다</h2>
+				<b><img src="/images/icon/bell_icon.png" alt="알림종" /></b>
+				<span>지진 &#183; 지진해일 발생시 시민행동요령</span>
+			</div> -->
+						<div id="alert" class="max-wrap">
+							<h4>
+								<span>알려드립니다</span>
+							</h4>
+							<ul>
+								<!-- <li class="on"><a href="http://www.realtyprice.kr/notice/hpindividual/siteLink.htm" target="_self">2016년
+										6.1기준 공동주택가격(안) 열람 및 의견제출</a></li>
+								<li><a href="http://kras.ulsan.go.kr/land_info/info/houseprice/houseprice.do" target="_blank">2016년
+										6.1기준 개별주택가격(안) 열람 및 의견제출</a></li>
+								<li><a href="http://www.ulsan.go.kr/safe/fbpolnotice/12" target="_self">지진·지진해일 발생시 시민행동요령</a></li>
+								<li><a href="http://www.ulsan.go.kr/uihe/smsreqst" target="_blank">미세먼지 경보상황 문자서비스 신청하세요!</a></li>
+								<li><a href="http://yesan.ulsan.go.kr/" target="_blank">2017년 예산편성에 시민 여러분의 소중한 의견을 기다립니다.</a></li>
+								<li><a href="http://www.ulsan.go.kr/safe/fbpolnotice/4" target="_self">비상시 국민행동요령</a></li>-->
+							</ul>
+						</div>
+					</div>
+					<!-- 뉴스 바 끝-->
+
+					<!--메인비주얼 시작-->
+					<div class="main_visual">
+						<div class="max-wrap m_none">
+							<div id="carousel1" class="carousel slide" data-ride="carousel">
+								<!-- Indicators -->
+								<ol class="carousel-indicators">
+									
+										<li data-target="#carousel1" data-slide-to="0" class="active"></li>
+									
+									
+								</ol>
+
+								<!-- Wrapper for slides -->
+								<div class="carousel-inner" role="listbox">
+									
+										<div class="item active">
+											<img src="/images/daewangam/main_visual01.png" alt="메인비주얼 첫번째" />
+										</div>
+									
+									
+								</div>
+
+								<!-- Controls -->
+								<a class="left carousel-control" href="#carousel1" role="button" data-slide="prev"> <span
+									class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+								</a> <a class="right carousel-control" href="#carousel1" role="button" data-slide="next"> <span
+									class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
+								</a>
+							</div>
+						</div>
+
+						<div class="max-wrap pc_none">
+							<div id="carousel2" class="carousel slide" data-ride="carousel">
+								<!-- Indicators -->
+								<ol class="carousel-indicators">
+									
+										<li data-target="#carousel1" data-slide-to="0" class="active"></li>
+									
+									
+								</ol>
+
+								<!-- Wrapper for slides -->
+								<div class="carousel-inner" role="listbox">
+									
+								</div>
+
+								<!-- Controls -->
+								<a class="left carousel-control" href="#carousel2" role="button" data-slide="prev"> <span
+									class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+								</a> <a class="right carousel-control" href="#carousel2" role="button" data-slide="next"> <span
+									class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<!--main_vis ual-->
+
+
+					<!--메인비주얼 끝-->
+				</article>
+
+			</div>
+		</section>
+
+
+
+
+
+		<section>
+
+			<div class="row main_con_02">
+				<div class="max-wrap">
+
+
+					<!-- 두번째 줄 : 추천코스 시작-->
+					<article>
+						<div class="main_course">
+							<h2>대왕암 둘레길</h2>
+							<div class="main_course_con">
+								<ul>
+									<li><a href="/Pgrecomend1.do" title="바닷길"> <span><img src="/images/daewangam/course01.png" alt="바닷길코스아이콘" /></span>
+											<b>바닷가길</b>
+									</a></li>
+									<li><a href="/Pgrecomend2.do" title="전설바위길"> <span><img src="/images/daewangam/course02.png" alt="전설바위코스아이콘" /></span>
+											<b>전설바위길</b>
+									</a></li>
+									<li><a href="/Pgrecomend3.do" title="송림길"> <span><img src="/images/daewangam/course03.png" alt="송림체험코스아이콘" /></span>
+											<b>송림길</b>
+									</a></li>
+									<li><a href="/Pgrecomend4.do" title="사계절길"> <span><img src="/images/daewangam/course04.png"
+												alt="사계절길" /></span> <b>사계절길</b>
+									</a></li>
+								</ul>
+							</div>
+						</div>
+					</article>
+					<!-- 두번째 줄 : 추천코스 끝-->
+					<!-- 두번째 줄 : 공지사항 시작-->
+					<article>
+						<div class="main_notice">
+							<h2>
+								공지사항<a href="/BBS_001List.do" class="더보기">+</a>
+							</h2>							
+																		
+							
+								
+								
+								
+							
+
+
+
+
+
+    
+					
+							
+			<ul class="main_notice_con">				
+				
+											
+						<li><a href="/BBS_001Article.do?nttId=4696">대왕암공원 출렁다리 무료 운영 안내</a><span>2022-03-21</span></li>
+					
+					
+					
+					
+				
+											
+						<li><a href="/BBS_001Article.do?nttId=4591">2022년 대왕암공원 "차없는 상가거리"  주말 상시운영 알림</a><span>2021-12-31</span></li>
+					
+					
+					
+					
+				
+											
+						<li><a href="/BBS_001Article.do?nttId=4590">대왕암공원 출렁다리 시범운영기간 추가 연장 안내</a><span>2021-12-31</span></li>
+					
+					
+					
+					
+				
+											
+						<li><a href="/BBS_001Article.do?nttId=4589">22.01.03.(토) 방역조치 강화 2주 연장에 따른 대왕암공원 이용안내</a><span>2021-12-31</span></li>
+					
+					
+					
+					
+				
+			</ul>									
+
+					
+							
+						</div>
+					</article>
+					<!-- 두번째 줄 : 공지사항 끝-->
+
+
+				</div>
+			</div>
+		</section>
+
+
+
+
+
+		<!--세번째 줄 : 대왕암공원  둘러보기 시작-->
+		<section>
+			<div class="row main_con_03">
+				<div class="max-wrap">
+					<div class="guide_title">
+						<p class="first">TOUR GUIDE</p>
+						<span class="second">대왕암공원 </span> <span class="last">둘러보기</span> <a href="#">자세히보기 </a>
+					</div>
+					<div class="guide_con">
+						<ul>
+							<li><a href="/Pgswaybridge.do"><span><img src="/images/daewangam/guide_icon08.png" alt="출렁다리" /></span><b>출렁다리</b></a></li>
+							<li><a href="/camping/main.do"><span><img src="/images/daewangam/guide_icon07.png" alt="대왕암공원캠핑장" /></span><b>대왕암공원캠핑장</b></a></li>
+							<li><a href="/Pgcfrtrrsrt3.do"><span><img src="/images/daewangam/guide_icon01.png" alt="슬도" /></span><b>슬도</b></a></li>
+							<li><a href="/Pgparkprevew2.do"><span><img src="/images/daewangam/guide_icon02.png" alt="울기등대" /></span><b>울기등대</b></a></li>
+							<li><a href="/Pgcfrtrrsrt2.do"><span><img src="/images/daewangam/guide_icon03.png" alt="송림" /></span><b>송림</b></a></li>
+							<li><a href="/Pgparkprevew3.do"><span><img src="/images/daewangam/guide_icon04.png" alt="미르놀이터" /></span><b>미르놀이터</b></a></li>
+							<li><a href="/Pgparkprevew5.do"><span><img src="/images/daewangam/guide_icon05.png" alt="소리체험관" /></span><b>소리체험관</b></a></li>
+							<!--  <li><a href="/Pgparkprevew6.do"><span><img src="/images/daewangam/guide_icon06.png" alt="어린이테마파크" /></span><b>어린이테마파크</b></a></li>-->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--세번째 줄 : 대왕암공원  둘러보기 끝-->
+
+
+
+
+		<!--네번째 줄 :주변관광지 시작-->
+		<section>
+			<div class="row main_con_04">
+				<div class="max-wrap">
+					<div class="main_travel fLeft">
+
+						<div class="travel_title">
+							<p>Travel</p>
+							<h2>주변관광지</h2>
+							<b class="m_none"><img src="/images/daewangam/travel_icon.png" alt="주변관광지"/> </b>
+						</div>
+
+						<ul>
+							<li><a title="울산대교전망대"> <img src="/images/daewangam/travel01.png" alt="울산대교전망대 전경" /> <strong>울산대교전망대</strong>
+									<b>울산의 새로운 랜드마크</b>
+							</a></li>
+							<li><a title="일산해수욕장"> <img src="/images/daewangam/travel02.png" alt="일산해수욕장 전경" /> <strong>일산해수욕장</strong>
+									<b>해변의 파도소리</b>
+							</a></li>
+							<li><a title="주전해안"> <img src="/images/daewangam/travel03.png" alt="주전해안 전경" /> <strong>주전해안</strong>
+									<b>몽돌 파도소리</b>
+							</a></li>
+							<li><a title="남목마성"> <img src="/images/daewangam/travel04.png" alt="남목마성 전경" /> <strong>남목마성</strong>
+									<b>기념물 제18호</b>
+							</a></li>
+						</ul>
+					</div>
+					<!--네번째 줄 :주변관광지 끝-->
+
+
+
+
+					<!--네번째 줄 : 알림판 시작-->
+					<div class="main_alim fRight">
+						<div class="article_title_wrap">
+							<span>알림판</span>
+							<ul>
+								<li><a id="bx-prev-col02"></a></li>
+								<li><a id="bx-next-col02"></a></li>
+							</ul>
+						</div>
+						<div style="width: 100%; clear: both;">
+							<ul class="bxslider">
+								
+									<li>
+										<a href="https://daewangam.donggu.ulsan.kr/Pgswaybridge.do" target="_self">
+											<img src="/cmm/fms/getImage.do?atchFileId=FILE_000000000001481&fileSn=0" alt="대왕암공원 출렁다리 운영안내" />
+										</a>
+									</li>
+								
+									<li>
+										<a href="/" target="_self">
+											<img src="/cmm/fms/getImage.do?atchFileId=FILE_000000000001411&fileSn=0" alt="휠체어 및 유모차 대여 안내" />
+										</a>
+									</li>
+								
+							</ul>
+						</div>
+					</div>
+					<!--네번째 줄 : 알림판 끝-->
+				</div>
+			</div>
+		</section>
+		<!--네번째 줄 끝-->
+
+
+
+		<!--다섯번째 줄 : 공공기관배너 시작-->
+		<section>
+			<div class="row main_con_05 m_none">
+				<div class="max-wrap">
+					<div class="main_partner">
+						<ul>
+							<!-- <li><a href="#" target="_self" title="[새창]국민안전처"><img src="/images/daewangam/partner01.png" alt="국민안전처" /></a></li> -->
+							<li><a href="http://www.safetyreport.go.kr" target="_blank" title="[새창]안전신문고"><img src="/images/daewangam/partner02.png" alt="안전신문고" /></a></li>
+							<li><a href="http://www.kosha.or.kr" target="_blank" title="[새창]한국산업안전보건공단"><img src="/images/daewangam/partner03.png"
+									alt="한국산업안전보건공단" /></a></li>
+							<li><a href="http://www.open.go.kr" target="_blank" title="[새창]정보공개시스템"><img src="/images/daewangam/partner04.png"
+									alt="정보공개시스템" /></a></li>
+							<li><a href="http://www.epeople.go.kr" target="_blank" title="[새창]국민신문고"><img src="/images/daewangam/partner05.png" alt="국민신문고" /></a></li>
+							<li><a href="https://www.gov.kr/etc/AA090_g4c_admin.jsp?Mcode=12000" target="_blank" title="[새창]하나로민원"><img src="/images/daewangam/partner06.png" alt="하나로민원" /></a></li>
+							<!--<li><a href="#" target="_self" title="[새창]카풀시민운동"><img src="/images/daewangam/partner07.png"
+									alt="카풀시민운동" /></a></li>-->
+							<li><a href="http://www.110.go.kr" target="_blank" title="[새창]정부민원안내콜센터"><img src="/images/daewangam/partner08.png"
+									alt="정부민원안내콜센터" /></a></li>
+							<li class="last_cell"><a href="http://www.safe182.go.kr" target="_blank" title="[새창]안전드림"><img
+									src="/images/daewangam/partner09.png" alt="안전드림" /></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--다섯번째 줄 :  공공기관배너 끝-->
+
+
+
+
+		<!--모바일- 관련홈페이지 시작-->
+		<section>
+			<div class="row relative_site pc_none">
+				<div class="max-wrap">
+					<select style="width:100%" onchange="window.open(this.options[this.selectedIndex].value,'_blank')" title="관련사이트">
+							<option>관련사이트</option>
+							<option value="http://donggu.ulsan.kr">울산동구청</option>
+							<option value="http://donggu.ulsan.kr/tour">울산동구문화관광축제</option>
+							<option value="http://ulsan.go.kr">울산광역시청</option>
+							<option value="http://photo.donggu.ulsan.kr">울산동구사진기록관</option>
+						</select>
+				</div>
+			</div>
+		</section>
+		<!--모바일- 관련홈페이지 끝-->
+
+
+
+		<script src="/js/bootstrap.js" type="text/javascript"></script>
+		<script>
+			$('.bxslider').bxSlider({
+				nextSelector : '#bx-next-col02',
+				prevSelector : '#bx-prev-col02',
+				mode : 'horizontal', //default : 'horizontal', options: 'horizontal', 'vertical', 'fade'
+				speed : 1000, //default:500 이미지변환 속도
+				auto : true, //default:false 자동 시작
+				captions : false, // 이미지의 title 속성이 노출된다.
+				autoControls : false, //default:false 정지,시작 콘트롤 노출, css 수정이 필요
+				//controls: false,
+				pager : false
+			});
+		</script>
+
+
+		<!--메인 컨텐츠 끝-->
+
+
+
+
+
+
+		<!--푸터 시작-->
+		<footer>
+
+
+
+			<!--푸터 라인01 시작-->
+			<div class="row footer_top_01">
+				<div class="max-wrap">
+
+					<div class="fLeft footer_top_0101">
+						<ul>
+							
+							<li><a href="http://www.donggu.ulsan.kr/donggu/userGuide/privacyPpolicy.jsp" target="_blank">개인정보 처리방침</a></li>
+							<li class="slash">|</li>
+							<li><a href="/siteMap.do" target="_self">사이트맵</a></li>
+						</ul>
+					</div>
+					<!--footer_top_0101-->
+
+					<div class="fRight footer_top_0102 m_none">
+
+						<select onchange="window.open(this.options[this.selectedIndex].value,'_blank')" title="관련사이트">
+							<option>관련사이트</option>
+							<option value="http://donggu.ulsan.kr">울산동구청</option>
+							<option value="http://donggu.ulsan.kr/tour">울산동구문화관광축제</option>
+							<option value="http://ulsan.go.kr">울산광역시청</option>
+							<option value="http://photo.donggu.ulsan.kr">울산동구사진기록관</option>
+						</select>
+					</div>
+					
+					<!--footer_top_0102-->
+
+				</div>
+			</div>
+			<!--푸터 라인01 끝-->
+
+
+			<!--푸터 라인02 시작-->
+			<div class="row footer_top_02">
+				<div class="max-wrap">
+					<div class="fLeft main_copyright">
+						<p>상호 : 울산광역시 대왕암공원 주소 : 울산광역시 동구 등대로 95(일산동)  전화번호 : <a href="tel:052-209-3738">052-209-3738</a></p>
+						<p>Copyright(c) 2016 울산광역시 대왕암공원. All Rights reserved.</p>
+					</div>
+					<!--main_copyright-->
+				</div>
+			</div>
+			<!--푸터 라인02 끝-->
+
+
+		</footer>
+		<!--푸터 끝-->
+
+
+
+		<script src="/js/bootstrap.js" type="text/javascript"></script>
+		<!--
+		<script>
+			var temp;
+			var wind;
+			var link;
+			var condition_code;
+			var alt = '';
+			var callbackFunction = function(data) {
+				var condition = data.query.results.channel.item;
+				var channel = data.query.results.channel;
+				temp = condition.condition.temp;
+				link = condition.link;
+				wind = channel.wind;
+				condition_code=condition.condition.code;
+				alt = condition.condition.text;
+			};
+
+			$(document).ready(function() {
+				var fixedTemp = (temp - 32) / 1.8;
+				fixedTemp = fixedTemp.toFixed(1);
+				$('#temperature').html(fixedTemp + "℃");
+				$('#temperatureM').html(fixedTemp + "℃");
+				var kiloWind = wind.speed;
+				//kiloWind = kiloWind.toFixed(1);
+				$('#wind').html(" 풍속" + kiloWind + " km/h");
+				
+				var now = new Date();
+				$('#date').html(parseInt(now.getMonth())+1+"월 "+now.getDate()+"일");
+				
+				//날씨아이콘
+				$('#weather_icon').attr("src","/images/icon/weather_icon/"+condition_code+".svg");
+				$('#weather_icon_m').attr("src","/images/icon/weather_icon/"+condition_code+".svg");
+				
+				
+				$('#weather_icon').attr("alt",alt);
+				$('#weather_icon_m').attr("alt",alt);
+
+			});
+			
+
+			function goWeather() {
+				window.open(link, '_blank');
+			}
+		</script>
+
+		<script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid =1132578&format=json&callback=callbackFunction"></script>
+		-->
+	</div>
+	<!--container-->
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106935155-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments)};
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-106935155-1');
+	</script>
+
+</body>
