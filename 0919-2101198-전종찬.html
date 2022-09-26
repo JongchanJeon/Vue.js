@@ -45,7 +45,7 @@
             <div v-else>주문하기 화면이 들어갈 자리 
                 <div class="row">
                     <strong>이름: </strong>
-                    <input v-model="order.firstName" class = "form-control"/>
+                    <input v-model.trim="order.firstName" class = "form-control"/>
                     </div>
                     <div class="col-md-6">
                     <strong>성: </strong>
@@ -68,10 +68,8 @@
                             <div class = "col-md-12">
                                 <select v-model="order.state" class = "form-control">
                                     <option disabled value="">주</option>
-                                    <option value ="앨라배마">AL</option>
-                                    <option value ="애리조나">AR</option>
-                                    <option value ="캘리포니아">CA</option>
-                                    <option value ="네바다">NV</option>
+                                    <option v-for="(v, k) in states" :value="k">{{v}}</option>
+
                                 </select>
                                 
                             </div>
@@ -79,16 +77,14 @@
                             <div class="form-group">
                                 <div class = "col-md-12"><strong>우편번호:</strong></div>
                                 <div class = "col-md-12">
-                                    <input v-model="order.zip" class="form-control">
+                                    <input v-model.number="order.zip" class="form-control">
                                 </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class = "col-md-6 boxes"><input type="checkbox" id="gift" value ="true" v-model ="order.gift">
+                                    <div class = "col-md-6 boxes"><input type="checkbox" id="gift" value ="true" v-model ="order.gift"
+                                         v-bind:ture-value="order.sendGift" v-bind:false-value="order.dontSendGift">
                                     <label for="gift">선물로보내기</label>
                                 </div>
-                                    <div class = "col-md-12">
-                                        <input v-model="order.gift" class="form-control">
-                                    </div>
                                     </div>
                                     <div class="form-group">
                                         <div class = "col-md-6 boxes"><input type="radio" id="home" value ="Home" v-model ="order.method">
@@ -96,9 +92,12 @@
                                         <input type="radio" id ="business" value="Business" v-model="order.method">
                                         <label for="business">직장</label>
                                     </div>
-                                        <div class = "col-md-12">
-                                            <input v-model="order.gift" class="form-control">
+                                        <div class = "form-group">
+                                            <div class ="col-md-6">
+                                                <button type="submit" class = "btn btn-primary submit" @click="submitForm">주문하기</button>
+                                            </div>
                                         </div>
+
                                     <div class="col-md-12 verify">
                                         <pre>
                                             이름: {{order.firstName}}
@@ -159,6 +158,20 @@
                     city:'',
                     state:'',
                     zip:'',
+                    gift: false,
+                    method:'자택',
+                    gift: '선물로 보내기',
+                    sendGift: '선물로 보내기',
+                    dontSendGift:'선물로 보내지 않기'
+                },
+                states: {
+                    AL : '앨라배마',
+                    AK : '알레스카',
+                    AR : '애리조나',
+                    CA : '캘리포니아',
+                    NV : '네바다',
+                    NY : '뉴욕',
+
                 },
             },
             computed: { 
@@ -199,6 +212,9 @@
                     this.cart.splice(0);
                     localStorage.setItem("itemCount",JSON.stringify(this.cart.length = 0));
                 },
+                submitForm() {
+                    alert('제출완료');
+                }
             }
         });
     </script>
