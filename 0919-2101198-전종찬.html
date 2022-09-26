@@ -42,73 +42,90 @@
                     <button class="btn btn-primary btn-lg" @click="cleanToCart">장바구니 비우기</button>
                 </div>
             </div>
-            <div v-else>주문하기 화면이 들어갈 자리 
-                <div class="row">
+            <div v-else>주문하기 
+                <div>------------------------------------------------------------------------------</div>
+                <div class="col-md-6">
                     <strong>이름: </strong>
-                    <input v-model.trim="order.firstName" class = "form-control"/>
+                    <input v-model.trim="order.name" class = "form-control"/>
                     </div>
-                    <div class="col-md-6">
-                    <strong>성: </strong>
-                    <input v-model="order.lastName" class = "form-control"/>
-                    </div>
+                    <div class="form-group">결제유형
+                        <div class = "col-md-6 boxes">
+                            <input type="radio" id="cash" value ="Cash" v-model ="order.payment">
+                            <label for="home">현금</label>
+                            <input type="radio" id ="card" value="Card" v-model="order.payment">
+                            <label for="business">카드</label>
+                            <input type="radio" id ="point" value="Point" v-model="order.payment">
+                            <label for="business">포인트</label>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>연락처: </strong>
+                            <input v-model.trim="order.number" class = "form-control"/>
+                            </div>
                     <div class="form-group">
-                        <div class = "col-md-12"><strong>주소:</strong></div>
-                        <div class = "col-md-12">
-                            <input v-model="order.address" class="form-control">
+                        <div class = "col-md-6"><strong>우편번호</strong>
+                           <input v-model.number="order.zip" class="form-control">
                         </div>
+                        <div class = "col-md-6"><strong>주소:</strong>
+                            <input v-model.trim="order.address" class="form-control">
+                        </div>
+                        <div class = "col-md-6"><strong>상세주소:</strong>
+                            <input v-model.trim="order.address2" class="form-control">
+                        </div>
+                        
                     </div>
-                    <div class="form-group">
-                        <div class = "col-md-12"><strong>도시:</strong></div>
-                        <div class = "col-md-12">
-                            <input v-model="order.city" class="form-control">
-                        </div>
-                        </div>
+                    
                         <div class="form-group">
-                            <div class = "col-md-12"><strong>주:</strong></div>
-                            <div class = "col-md-12">
+                            <div class = "col-md-6"><strong>요청사항</strong></div>
+                            <div class = "col-md-6">
                                 <select v-model="order.state" class = "form-control">
-                                    <option disabled value="">주</option>
-                                    <option v-for="(v, k) in states" :value="k">{{v}}</option>
+                                    <option disabled value="">요청사항 선택하기</option>
+                                    <option v-for="(v, k) in deliveryDemand" :value="k">{{v}}</option>
 
                                 </select>
                                 
                             </div>
                             </div>
-                            <div class="form-group">
-                                <div class = "col-md-12"><strong>우편번호:</strong></div>
-                                <div class = "col-md-12">
-                                    <input v-model.number="order.zip" class="form-control">
-                                </div>
-                                </div>
                                 <div class="form-group">
-                                    <div class = "col-md-6 boxes"><input type="checkbox" id="gift" value ="true" v-model ="order.gift"
-                                         v-bind:ture-value="order.sendGift" v-bind:false-value="order.dontSendGift">
-                                    <label for="gift">선물로보내기</label>
+                                    <div class = "col-md-6 boxes"><input type="checkbox" id="gift" value ="false" v-model ="order.deliveryLocation" @click = "deliveryCheck">
+                                    <label for="gift">배송지 - [체크표시] 구매자와 동일</label>
                                 </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class = "col-md-6 boxes"><input type="radio" id="home" value ="Home" v-model ="order.method">
-                                        <label for="home">자택</label>
-                                        <input type="radio" id ="business" value="Business" v-model="order.method">
-                                        <label for="business">직장</label>
-                                    </div>
-                                        <div class = "form-group">
-                                            <div class ="col-md-6">
-                                                <button type="submit" class = "btn btn-primary submit" @click="submitForm">주문하기</button>
+                                        <div>------------------------------------------------------------------------------</div>
+                                    
+                                    <div class="col-md-12" v-if = "deliveryCheck">
+                                        <div class="col-md-6">
+                                            <strong>이름: </strong>
+                                            <input v-model.trim="order.name" class = "form-control" value = {{order.name}}/>
                                             </div>
+                                        <div class="col-md-6">
+                                            <strong>연락처: </strong>
+                                            <input v-model.trim="order.number" class = "form-control" value = {{order.number}}/>
+                                            </div>
+                                        <div class = "col-md-6"><strong>주소:</strong>
+                                            <input v-model.trim="order.address" class="form-control" value = ({{order.address}}{{order.address2}}{{order.zip}})>
+                                            </div>
+                                        <div>수령인 명: {{order.name}}</div>    
+                                        <div>연락처 : {{order.number}}</div>    
+                                        <div>주소:{{order.address}}  {{order.address2}}  {{order.zip}}</div>
+                                    </div>
+                                    <div class = "col-md-12" v-else = "deliveryCheck">
+                                        <div class="col-md-6">
+                                            <strong>이름: </strong>
+                                            <input v-model.trim="order.delName" class = "form-control"/>
+                                            </div>
+                                        <div class="col-md-6">
+                                            <strong>연락처: </strong>
+                                            <input v-model.trim="order.delNum" class = "form-control"/>
+                                            </div>
+                                        <div class = "col-md-6"><strong>주소:</strong>
+                                            <input v-model.trim="order.delAddress" class="form-control">
+                                            </div>
+                                    </div>
+                                    <div class = "form-group">
+                                        <div class ="col-md-6">
+                                            <button type="submit" class = "btn btn-primary submit" @click="submitForm">전송하기</button>
                                         </div>
-
-                                    <div class="col-md-12 verify">
-                                        <pre>
-                                            이름: {{order.firstName}}
-                                            성:{{order.lastName}}
-                                            주소:{{order.address}}
-                                            도시:{{order.city}}
-                                            우편번호:{{order.zip}}
-                                            주:{{order.state}}
-                                            주소지:{{order.method}}
-                                            선물:{{order.gift}}
-                                        </pre>
                                     </div>
                             </div>
                            
@@ -116,11 +133,7 @@
                     
                 </div>
             </div>
-            
-            
-            
 
-                
     </main>
     </div>
     <script>
@@ -152,26 +165,23 @@
                 cart:[],
                 showProduct: true,
                 order: {
-                    firstName:'',
-                    lastName:'',
-                    address:'',
-                    city:'',
-                    state:'',
+                    name:'',
+                    number:'',
                     zip:'',
-                    gift: false,
-                    method:'자택',
-                    gift: '선물로 보내기',
-                    sendGift: '선물로 보내기',
-                    dontSendGift:'선물로 보내지 않기'
+                    address:'',
+                    address2:'',
+                    payment:'',
+                    deliveryLocation: false,
+                    deliverystate: '',
+                    delName: '',
+                    delNum:'',
+                    delAddress: '',
                 },
-                states: {
-                    AL : '앨라배마',
-                    AK : '알레스카',
-                    AR : '애리조나',
-                    CA : '캘리포니아',
-                    NV : '네바다',
-                    NY : '뉴욕',
-
+                deliveryDemand: {
+                    D1 : '배송 전 연락바람', 
+                    D2 : '부재 시 문앞에 두세요',
+                    D3 : '부재 시 경비실에 두세요',
+                    D4 : '직접수령',
                 },
             },
             computed: { 
@@ -184,7 +194,17 @@
                 },
                 canAddToCart() {
                     return this.product.inventory > this.cartItemCount;
-                },                
+                },         
+                deliveryCheck() {
+                    if (this.deliveryLocation == true){
+                        this.deliveryLocation = false;
+                        return false;
+                    }else {
+                        this.deliveryLocation = true;
+                        return true;
+                    }
+
+                }       
             },
             filters: {
                 formatPrice(price) {
@@ -213,8 +233,8 @@
                     localStorage.setItem("itemCount",JSON.stringify(this.cart.length = 0));
                 },
                 submitForm() {
-                    alert('제출완료');
-                }
+                    alert('주문완료');
+                },
             }
         });
     </script>
