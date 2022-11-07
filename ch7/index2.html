@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <book-component>
+
+        </book-component>
+    </div>
+    <script>
+        const BookComponent = function(resolve, reject) {
+            setTimeout(function(){
+                resolve({
+                    template : `
+                        <div>
+                            <h1>
+                                비동기 컴포넌트
+                            </h1>
+                        </div>
+                    `,
+
+                })
+            }
+            ,1000 * 5)
+        }
+        
+        new Vue({
+            el: "#app",
+            components : {
+                'book-component' : BookComponent,
+            },
+            data() {
+                return {
+                    currentView : BookComponent,
+
+                }
+            },
+            methods:{
+                cycle() {
+                    if (this.currentView === HeaderComponent) {
+                        this.currentView = BookComponent;
+                    } else {
+                        this.currentView = this.currentView === BookComponent ? FormComponent : HeaderComponent;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
