@@ -1,4 +1,6 @@
+
 <template>
+  
 <header>
   <div class="navbar navbar-default">
     <div class="navbar-center">
@@ -16,7 +18,7 @@
       </router-link>
       <router-link
           active-class="active"
-          tag="button" class="btn btn-default btn-lg" :to="{name: 'Form'}">
+          tag="button" class="btn btn-default btn-lg" :to="{path: '/'}">
 
         <span class="glyphicon glyphicon-shopping-cart">{{cartItemCount}}</span> Sign Out
       </router-link>

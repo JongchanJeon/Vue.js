@@ -1,8 +1,8 @@
 <template>
-<div>
+<div id = "default">
   <my-header :cartItemCount="cartItemCount"></my-header>
   <main>
-    <h4>■ 현재시간 : <span id="nowTimes"></span></h4>
+    <h2>■ 현재시간 : <span id="nowTimes"></span></h2>
     <div v-for="product in sortedProducts">
       <div class="row">
         <div class="col-md-5 col-md-offset-0">
@@ -18,13 +18,13 @@
           </router-link>
           <p v-html="product.description"></p>
           <p class="price">
-            {{product.price | formatPrice}}
+            현재 입찰가 :{{product.price | formatPrice}}
           </p>
           <button class="btn btn-primary btn-lg"
             v-on:click="addToCart(product)"
-            v-if="canAddToCart(product)">장바구니 담기</button>
+            v-if="canAddToCart(product)">입찰하기</button>
           <button disabled="true" class="btn btn-primary btn-lg"
-            v-else>장바구니 담기</button>
+            v-else>입찰하기</button>
           <span class="inventory-message"
                 v-if="product.availableInventory - cartCount(product.id) === 0">
               품절!
@@ -50,6 +50,25 @@
 </template>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+      realTimer();
+      setInterval(realTimer, 500);
+  });
+  function realTimer() {
+      const nowDate = new Date();
+      const year = nowDate.getFullYear();
+      const month= nowDate.getMonth() + 1;
+      const date = nowDate.getDate();
+      const hour = nowDate.getHours();
+      const min = nowDate.getMinutes();
+      const sec = nowDate.getSeconds();
+      document.getElementById("nowTimes").innerHTML = 
+                year + "-" + addzero(month) + "-" + addzero(date) + "&nbsp;" + hour + ":" + addzero(min) + ":" + addzero(sec);
+  }
+  function addzero(num) {
+      if(num < 10) { num = "0" + num; }
+       return num;
+  }
 import MyHeader from './Header.vue';
 export default {
   name: 'imain',
@@ -125,4 +144,13 @@ export default {
   }
 }
 </script>
+<style>
+body {
+  background-color: #ffffff;
+}
+#default {
+  background-color: #ffffff;
+  color : black;
+}
+</style>
 
