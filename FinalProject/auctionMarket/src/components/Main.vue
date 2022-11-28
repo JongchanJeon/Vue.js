@@ -20,6 +20,12 @@
           <p class="price">
             현재 입찰가 :{{product.price | formatPrice}}
           </p>
+          <p class = "limit">
+            경매 종료 : {{product.limitDate | formatDate}} {{product.limitTime | formatTime}}
+          </p>
+          <p>
+            남은 시간 : {{leftTime}}
+          </p>
           <button class="btn btn-primary btn-lg"
             v-on:click="addToCart(product)"
             v-if="canAddToCart(product)">입찰하기</button>
@@ -97,7 +103,12 @@ export default {
         }
       }
       return count;
+    },
+    leftTimer(limitTime){
+      var hourTime = limitTime.substr(0,2);
+      return hourTime;
     }
+    
   },
   computed: {
     cartItemCount() {
@@ -115,6 +126,9 @@ export default {
         }
         return productsArray.sort(compare);
       }
+    },
+    leftTime() {
+      return limitTime;
     }
   },
   filters: {
@@ -134,6 +148,22 @@ export default {
       } else {
         return '$' + (price / 100).toFixed(2);
       }
+    },
+    formatDate(limitDate){
+      var date = "";
+      var strLimitDate = limitDate;
+      date += strLimitDate.substr(0,4) + "-";
+      date += strLimitDate.substr(4,2) + "-";
+      date += strLimitDate.substr(6,2);
+      return date;
+    },
+    formatTime(limitTime) {
+      var time = "";
+      var strLimitTime = limitTime;
+      time += strLimitTime.substr(0,2) + ":";
+      time += strLimitTime.substr(2,2) + ":";
+      time += strLimitTime.substr(4,2);
+      return time;
     }
   },
   created: function() {
