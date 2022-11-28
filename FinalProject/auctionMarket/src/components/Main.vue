@@ -24,7 +24,7 @@
             경매 종료 : {{product.limitDate | formatDate}} {{product.limitTime | formatTime}}
           </p>
           <p>
-            남은 시간 : {{leftTime}}
+            남은 시간 : {{leftTimer(product.limitTime)}}
           </p>
           <button class="btn btn-primary btn-lg"
             v-on:click="addToCart(product)"
@@ -56,34 +56,18 @@
 </template>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-      realTimer();
-      setInterval(realTimer, 500);
-  });
-  function realTimer() {
-      const nowDate = new Date();
-      const year = nowDate.getFullYear();
-      const month= nowDate.getMonth() + 1;
-      const date = nowDate.getDate();
-      const hour = nowDate.getHours();
-      const min = nowDate.getMinutes();
-      const sec = nowDate.getSeconds();
-      document.getElementById("nowTimes").innerHTML = 
-                year + "-" + addzero(month) + "-" + addzero(date) + "&nbsp;" + hour + ":" + addzero(min) + ":" + addzero(sec);
-  }
-  function addzero(num) {
-      if(num < 10) { num = "0" + num; }
-       return num;
-  }
+
 import MyHeader from './Header.vue';
 export default {
   name: 'imain',
   data() {
     return {
       products: [],
-      cart: []
+      cart: [],
+      
     }
   },
+
   components: { MyHeader },
   methods: {
     checkRating(n, myProduct) {
@@ -105,9 +89,14 @@ export default {
       return count;
     },
     leftTimer(limitTime){
-      var hourTime = limitTime.substr(0,2);
-      return hourTime;
-    }
+      
+      var nowDate = new Date();
+      var hour = nowDate.getHours();
+      var min = nowDate.getMinutes();
+      var sec = nowDate.getSeconds();
+      
+      return hour + min + sec;
+    },
     
   },
   computed: {
@@ -127,9 +116,23 @@ export default {
         return productsArray.sort(compare);
       }
     },
-    leftTime() {
-      return limitTime;
-    }
+    realTimer() {
+      var nowDate = new Date();
+      var year = nowDate.getFullYear();
+      var month= nowDate.getMonth() + 1;
+      var date = nowDate.getDate();
+      var hour = nowDate.getHours();
+      var min = nowDate.getMinutes();
+      var sec = nowDate.getSeconds();
+      document.getElementById("nowTimes").innerHTML = 
+        year + "-" + addzero(month) + "-" + addzero(date) + "&nbsp;" + hour + ":" + addzero(min) + ":" + addzero(sec);
+      return month;
+  },
+  addzero(num) {
+      if(num < 10) { num = "0" + num; }
+       return num;
+  },
+  
   },
   filters: {
     formatPrice(price) {
