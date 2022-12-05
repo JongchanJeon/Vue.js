@@ -8,52 +8,52 @@
       "limitDate" : "20221201",
       "limitTime" : "220000",
       "image": "static/image/monna.jpg",
-      "availableInventory": 10,
-      "rating": 1
+      "availableInventory": 1,
+      "remaindTime" : ""
     },
     {
       "id": 1002,
-      "title": "실뭉치",
-      "description": "실뭉치로 당신의 고양이에게 <strong>오랜</strong> 놀이 시간을 주세요!",
+      "title": "람보르기니",
+      "description": "꿈만같은 스포츠카를 경매로 저렴하게 구매하세요!",
       "price": 299,
-      "limitDate" : "20221201",
-      "limitTime" : "220000",
-      "image": "static/image/monna.jpg",
-      "availableInventory": 7,
-      "rating": 1
+      "limitDate" : "20221210",
+      "limitTime" : "000030",
+      "image": "static/image/lamborghini.jpg",
+      "availableInventory": 1,
+      "remaindTime" : ""
     },
     {
       "id": 1003,
-      "title": "고양이 화장실",
-      "description": "당신의 고양이를 위한 최고급 화장실입니다.",
+      "title": "롤렉스시계",
+      "description": "당신의 시간은 금입니다. 금 같은 시간을 시계로 대처하세요!",
       "price": 1100,
-      "limitDate" : "20221201",
-      "limitTime" : "220000",
-      "image": "static/image/monna.jpg",
-      "availableInventory": 99,
-      "rating": 4
+      "limitDate" : "202212016",
+      "limitTime" : "200000",
+      "image": "static/image/rolex.png",
+      "availableInventory": 1,
+      "remaindTime" : ""
     },
     {
       "id": 1004,
-      "title": "고양이 집",
-      "description": "고양이가 놀 수 있는 장소!",
+      "title": "로뎅 생각하는 사람 구조물",
+      "description": "언제 어디서든 생각 할 수 있는 구조물을 판매합니다.",
       "price": 799,
-      "limitDate" : "20221201",
-      "limitTime" : "220000",
-      "image": "static/image/monna.jpg",
-      "availableInventory": 11,
-      "rating": 5
+      "limitDate" : "20220114",
+      "limitTime" : "081500",
+      "image": "static/image/thinking.jpg",
+      "availableInventory": 1,
+      "remaindTime" : ""
     },
     {
       "id": 1005,
-      "title": "레이저 포인터",
-      "description": "이 <em>놀라운</em> 상품으로 고양이와 놀아주세요.",
+      "title": "반고흐 별이 빛나는 밤",
+      "description": "하늘에 있는 별들을 집에서도 느낄 수 있는 미술 작품을 판매합니다!",
       "price": 4999,
-      "limitDate" : "20221201",
-      "limitTime" : "220000",
-      "image": "static/image/monna.jpg",
-      "availableInventory": 25,
-      "rating": 1
+      "limitDate" : "20221231",
+      "limitTime" : "170000",
+      "image": "static/image/staring.jpg",
+      "availableInventory": 1,
+      "remaindTime" : ""
     }
   ]
 }

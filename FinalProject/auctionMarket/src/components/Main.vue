@@ -3,19 +3,20 @@
   <my-header :cartItemCount="cartItemCount"></my-header>
   <main>
     <h2>■ 현재시간 : <span id="nowTimes"></span></h2>
-    <div v-for="product in sortedProducts">
+   
+    <div v-for="product in sortedProducts" :key="product.id">
       <div class="row">
         <div class="col-md-5 col-md-offset-0">
           <figure>
-            <img class="product" v-bind:src="product.image">
+            <img class="product" v-bind:src="product.image" width="250" height="250">
           </figure>
         </div>
         <div class="col-md-6 col-md-offset-0 description">
           <!-- <h1 v-text="product.title"></h1> -->
-          <router-link tag="h1"
-              :to="{name: 'Id', params: {id: product.id}}">
-            {{product.title}}
-          </router-link>
+          <!-- <router-link tag="h1"
+              :to="{name: 'Id', params: {id: product.id}}"> -->
+            <h3><b>{{product.title}}</b></h3>
+          <!-- </router-link> -->
           <p v-html="product.description"></p>
           <p class="price">
             현재 입찰가 :{{product.price | formatPrice}}
@@ -24,7 +25,7 @@
             경매 종료 : {{product.limitDate | formatDate}} {{product.limitTime | formatTime}}
           </p>
           <p>
-            남은 시간 : {{leftTimer(product.limitTime)}}
+            남은 시간 : {{product.remaindTime}}
           </p>
           <button class="btn btn-primary btn-lg"
             v-on:click="addToCart(product)"
@@ -42,11 +43,6 @@
           <span class="inventory-message"
                 v-else>지금 구매하세요!
           </span>
-          <div class="rating">
-            <span v-bind:class="{'rating-active': checkRating(n, product)}"
-                v-for="n in 5">☆
-            </span>
-          </div>
         </div>
       </div><!-- end of row -->
       <hr />
@@ -56,7 +52,6 @@
 </template>
 
 <script>
-
 import MyHeader from './Header.vue';
 export default {
   name: 'imain',
@@ -64,12 +59,58 @@ export default {
     return {
       products: [],
       cart: [],
+      remaindTimerId: null,
       
     }
   },
 
-  components: { MyHeader },
+  components: { MyHeader},
   methods: {
+    //실시간 남은 시간을 product에 remaindTime에 값을 입력 함
+    reloadRemaindTime(productDate, productTime){      
+      this.remaindTimerId = setTimeout(()=>{
+        const now = new Date();
+          var year = now.getFullYear();
+          var month= now.getMonth() + 1;
+          if(month < 10) {
+            month = "0" + month;
+          }
+          var day = now.getDate();
+          if(day < 10) {
+            day = "0" + day;
+          }
+          var hour = now.getHours();
+          if(hour < 10) {
+            hour = "0" + hour;
+          }
+          var min = now.getMinutes();
+          if(min < 10) {
+            min = "0" + min;
+          }
+          var sec = now.getSeconds();
+          if(sec < 10) {
+            sec = "0" + sec;
+          }
+          var realtime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+          // 마지막 프로퍼티는 undefined로 됨 ...
+          productDate = productDate.substr(0,4) + "-" + productDate.substr(4,2) + "-" + productDate.substr(6,2);
+          console.log(productDate);
+          productTime = productTime.substr(0,2) + ":" + productTime.substr(2,2) + ":" + productTime.substr(4,2);
+
+          console.log(productTime);
+          const startTime = new Date(realtime);
+          const endTime = new Date('2022-12-05 15:00:00');
+          var diffTime = (endTime.getTime() - startTime.getTime()) / (1000);
+        for(let i=0; i<this.products.length; i++) {
+        
+          const p = this.products[i];
+          p.remaindTime = `${diffTime}초 남음`;
+        }
+        clearTimeout(this.remaindTimerId);
+        this.reloadRemaindTime();
+      }, 1000);
+    },
+    
     checkRating(n, myProduct) {
       return myProduct.rating - n >= 0;
     },
@@ -88,16 +129,6 @@ export default {
       }
       return count;
     },
-    leftTimer(limitTime){
-      
-      var nowDate = new Date();
-      var hour = nowDate.getHours();
-      var min = nowDate.getMinutes();
-      var sec = nowDate.getSeconds();
-      
-      return hour + min + sec;
-    },
-    
   },
   computed: {
     cartItemCount() {
@@ -126,7 +157,6 @@ export default {
       var sec = nowDate.getSeconds();
       document.getElementById("nowTimes").innerHTML = 
         year + "-" + addzero(month) + "-" + addzero(date) + "&nbsp;" + hour + ":" + addzero(min) + ":" + addzero(sec);
-      return month;
   },
   addzero(num) {
       if(num < 10) { num = "0" + num; }
@@ -173,6 +203,9 @@ export default {
     axios.get('/static/products.json').then(response => {
       this.products = response.data.products;
       console.log(this.products);
+      for(let i = 0; i < this.products.length; i++){
+      this.reloadRemaindTime(this.products[i].limitDate, this.products[i].limitTime);
+      }
     });
   }
 }
