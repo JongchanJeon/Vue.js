@@ -1,6 +1,6 @@
 <template>
 <div id = "default">
-  <my-header :cartItemCount="cartItemCount"></my-header>
+  <my-header></my-header>
   <main>
     <h2>■ 현재시간 : <span id="nowTimes"></span></h2>
    
@@ -12,11 +12,10 @@
           </figure>
         </div>
         <div class="col-md-6 col-md-offset-0 description">
-          <!-- <h1 v-text="product.title"></h1> -->
-          <!-- <router-link tag="h1"
-              :to="{name: 'Id', params: {id: product.id}}"> -->
+          <router-link tag="h1"
+              :to="{name: 'Id', params: {id: product.id}}">
             <h3><b>{{product.title}}</b></h3>
-          <!-- </router-link> -->
+          </router-link>
           <p v-html="product.description"></p>
           <p class="price">
             현재 입찰가 :{{product.price | formatPrice}}
@@ -25,22 +24,18 @@
             경매 종료 : {{product.limitDate | formatDate}} {{product.limitTime | formatTime}}
           </p>
           <p>
-            남은 시간 : {{product.remaindTime}}
+            남은 시간 : {{product.remaindTime | formatTimeCount}}
           </p>
           <button class="btn btn-primary btn-lg"
             v-on:click="addToCart(product)"
-            v-if="canAddToCart(product)">입찰하기</button>
+            v-if="(product.remaindTime > 0)">입찰하기</button>
           <button disabled="true" class="btn btn-primary btn-lg"
             v-else>입찰하기</button>
-          <span class="inventory-message"
-                v-if="product.availableInventory - cartCount(product.id) === 0">
-              품절!
+          <span class="buyPossible-message"
+                v-if="product.remaindTime < 0">
+              시간 초과!
           </span>
-          <span class="inventory-message"
-                v-else-if="product.availableInventory - cartCount(product.id) < 5">
-              {{product.availableInventory - cartCount(product.id)}} 남았습니다!
-          </span>
-          <span class="inventory-message"
+          <span class="buyPossible-message"
                 v-else>지금 구매하세요!
           </span>
         </div>
@@ -67,7 +62,7 @@ export default {
   components: { MyHeader},
   methods: {
     //실시간 남은 시간을 product에 remaindTime에 값을 입력 함
-    reloadRemaindTime(productDate, productTime){      
+    reloadRemaindTime(product){ 
       this.remaindTimerId = setTimeout(()=>{
         const now = new Date();
           var year = now.getFullYear();
@@ -93,21 +88,21 @@ export default {
           }
           var realtime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
           // 마지막 프로퍼티는 undefined로 됨 ...
-          productDate = productDate.substr(0,4) + "-" + productDate.substr(4,2) + "-" + productDate.substr(6,2);
-          console.log(productDate);
-          productTime = productTime.substr(0,2) + ":" + productTime.substr(2,2) + ":" + productTime.substr(4,2);
+          let productDate = product.limitDate.substr(0,4) + "-" + product.limitDate.substr(4,2) + "-" + product.limitDate.substr(6,2);
+          let productTime = product.limitTime.substr(0,2) + ":" + product.limitTime.substr(2,2) + ":" + product.limitTime.substr(4,2);
 
-          console.log(productTime);
+          var productLimitTime = productDate + " " + productTime
           const startTime = new Date(realtime);
-          const endTime = new Date('2022-12-05 15:00:00');
+          const endTime = new Date(productLimitTime);
           var diffTime = (endTime.getTime() - startTime.getTime()) / (1000);
-        for(let i=0; i<this.products.length; i++) {
-        
-          const p = this.products[i];
-          p.remaindTime = `${diffTime}초 남음`;
-        }
+
+          const p = product;
+          p.remaindTime = `${diffTime}`;
+
         clearTimeout(this.remaindTimerId);
-        this.reloadRemaindTime();
+        for(let i = 0; i <= this.products.length; i++){
+        this.reloadRemaindTime(this.products[i]);
+        }
       }, 1000);
     },
     
@@ -197,14 +192,21 @@ export default {
       time += strLimitTime.substr(2,2) + ":";
       time += strLimitTime.substr(4,2);
       return time;
+    },
+    formatTimeCount(remaindTime){
+      var hour = parseInt(remaindTime / 3600);
+      var min = parseInt((remaindTime % 3600)/60);
+      var sec = remaindTime % 60;
+      var result = hour + "시간 " + min + "분 " + sec + "초 남았습니다!";
+      return result;
     }
   },
   created: function() {
     axios.get('/static/products.json').then(response => {
       this.products = response.data.products;
       console.log(this.products);
-      for(let i = 0; i < this.products.length; i++){
-      this.reloadRemaindTime(this.products[i].limitDate, this.products[i].limitTime);
+      for(let i = 0; i <= this.products.length; i++){
+      this.reloadRemaindTime(this.products[i]);
       }
     });
   }

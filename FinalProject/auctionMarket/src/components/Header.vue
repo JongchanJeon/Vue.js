@@ -20,7 +20,7 @@
           active-class="active"
           tag="button" class="btn btn-default btn-lg" :to="{path: '/'}">
 
-        <span class="glyphicon glyphicon-shopping-cart">{{cartItemCount}}</span> Sign Out
+        <span class="glyphicon glyphicon-shopping-cart"></span> 로그아웃
       </router-link>
     </div>
   </div>
