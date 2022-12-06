@@ -26,11 +26,13 @@
           <p>
             남은 시간 : {{product.remaindTime | formatTimeCount}}
           </p>
+          <router-link tag="h1"
+              :to="{name: 'Id', params: {id: product.id}}">
           <button class="btn btn-primary btn-lg"
-            v-on:click="addToCart(product)"
             v-if="(product.remaindTime > 0)">입찰하기</button>
           <button disabled="true" class="btn btn-primary btn-lg"
             v-else>입찰하기</button>
+            </router-link>
           <span class="buyPossible-message"
                 v-if="product.remaindTime < 0">
               시간 초과!
@@ -53,7 +55,6 @@ export default {
   data() {
     return {
       products: [],
-      cart: [],
       remaindTimerId: null,
       
     }
@@ -65,6 +66,7 @@ export default {
     reloadRemaindTime(product){ 
       this.remaindTimerId = setTimeout(()=>{
         const now = new Date();
+        const tempProduct = product;
           var year = now.getFullYear();
           var month= now.getMonth() + 1;
           if(month < 10) {
@@ -87,7 +89,7 @@ export default {
             sec = "0" + sec;
           }
           var realtime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
-          // 마지막 프로퍼티는 undefined로 됨 ...
+
           let productDate = product.limitDate.substr(0,4) + "-" + product.limitDate.substr(4,2) + "-" + product.limitDate.substr(6,2);
           let productTime = product.limitTime.substr(0,2) + ":" + product.limitTime.substr(2,2) + ":" + product.limitTime.substr(4,2);
 
@@ -97,38 +99,16 @@ export default {
           var diffTime = (endTime.getTime() - startTime.getTime()) / (1000);
 
           const p = product;
-          p.remaindTime = `${diffTime}`;
-
-        clearTimeout(this.remaindTimerId);
-        for(let i = 0; i <= this.products.length; i++){
-        this.reloadRemaindTime(this.products[i]);
-        }
+          p.remaindTime = `${diffTime}`;         
+        
+        
+        //clearTimeout(this.remaindTimerId);
+        this.reloadRemaindTime(tempProduct);
+        
       }, 1000);
-    },
-    
-    checkRating(n, myProduct) {
-      return myProduct.rating - n >= 0;
-    },
-    addToCart(aProduct) {
-      this.cart.push(aProduct.id);
-    },
-    canAddToCart(aProduct) {
-      return aProduct.availableInventory > this.cartCount(aProduct.id);
-    },
-    cartCount(id) {
-      let count = 0;
-      for (var i = 0; i < this.cart.length; i++) {
-        if (this.cart[i] === id) {
-          count++;
-        }
-      }
-      return count;
     },
   },
   computed: {
-    cartItemCount() {
-      return this.cart.length || '';
-    },
     sortedProducts() {
       if (this.products.length > 0) {
         let productsArray = this.products.slice(0);
@@ -205,7 +185,7 @@ export default {
     axios.get('/static/products.json').then(response => {
       this.products = response.data.products;
       console.log(this.products);
-      for(let i = 0; i <= this.products.length; i++){
+      for(let i = 0; i < this.products.length; i++){
       this.reloadRemaindTime(this.products[i]);
       }
     });
