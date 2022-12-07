@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      products: [],
+      remaindTimerId: null,
+      
+    }
+  }
 }
 </script>
 
@@ -16,7 +23,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #ac2020;
+  color: #000000;
   margin-top: 60px;
   
 }

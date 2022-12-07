@@ -3,7 +3,6 @@
   <my-header></my-header>
   <main>
     <h2>■ 현재시간 : <span id="nowTimes"></span></h2>
-   
     <div v-for="product in sortedProducts" :key="product.id">
       <div class="row">
         <div class="col-md-5 col-md-offset-0">
@@ -12,10 +11,7 @@
           </figure>
         </div>
         <div class="col-md-6 col-md-offset-0 description">
-          <router-link tag="h1"
-              :to="{name: 'Id', params: {id: product.id}}">
             <h3><b>{{product.title}}</b></h3>
-          </router-link>
           <p v-html="product.description"></p>
           <p class="price">
             현재 입찰가 :{{product.price | formatPrice}}
@@ -27,7 +23,7 @@
             남은 시간 : {{product.remaindTime | formatTimeCount}}
           </p>
           <router-link tag="h1"
-              :to="{name: 'Id', params: {id: product.id}}">
+              :to="{name: 'Id', params: {id: product.id, price: product.price}}">
           <button class="btn btn-primary btn-lg"
             v-if="(product.remaindTime > 0)">입찰하기</button>
           <button disabled="true" class="btn btn-primary btn-lg"
@@ -56,7 +52,7 @@ export default {
     return {
       products: [],
       remaindTimerId: null,
-      
+      executionCount: 0,
     }
   },
 
@@ -101,7 +97,7 @@ export default {
           const p = product;
           p.remaindTime = `${diffTime}`;         
         
-        
+        //  clearTimeout을 하게되면 product의 length 의 값이 아닌 번씩 반복이 되서 삭제 함 (12/05일 수정)
         //clearTimeout(this.remaindTimerId);
         this.reloadRemaindTime(tempProduct);
         
@@ -122,21 +118,37 @@ export default {
         return productsArray.sort(compare);
       }
     },
-    realTimer() {
-      var nowDate = new Date();
-      var year = nowDate.getFullYear();
-      var month= nowDate.getMonth() + 1;
-      var date = nowDate.getDate();
-      var hour = nowDate.getHours();
-      var min = nowDate.getMinutes();
-      var sec = nowDate.getSeconds();
-      document.getElementById("nowTimes").innerHTML = 
-        year + "-" + addzero(month) + "-" + addzero(date) + "&nbsp;" + hour + ":" + addzero(min) + ":" + addzero(sec);
-  },
-  addzero(num) {
-      if(num < 10) { num = "0" + num; }
-       return num;
-  },
+    //첫번째 login.vue에서 realTimer() 함수가 있어 삭제함 (2022-12-07 수정)
+  //   realTimer() {
+  //     var nowDate = new Date();
+  //     var year = nowDate.getFullYear();
+  //     var month= nowDate.getMonth() + 1;
+  //     var date = nowDate.getDate();
+  //     var hour = nowDate.getHours();
+  //     var min = nowDate.getMinutes();
+  //     var sec = nowDate.getSeconds();
+  //     if(month < 10) {
+  //           month = "0" + month;
+  //         }
+  //         var date = now.getDate();
+  //         if(day < 10) {
+  //           day = "0" + day;
+  //         }
+  //         var hour = now.getHours();
+  //         if(hour < 10) {
+  //           hour = "0" + hour;
+  //         }
+  //         var min = now.getMinutes();
+  //         if(min < 10) {
+  //           min = "0" + min;
+  //         }
+  //         var sec = now.getSeconds();
+  //         if(sec < 10) {
+  //           sec = "0" + sec;
+  //         }
+  //     document.getElementById("nowTimes").innerHTML = 
+  //       year + "-" + addzero(month) + "-" + addzero(date) + "&nbsp;" + hour + ":" + addzero(min) + ":" + addzero(sec);
+  // },
   
   },
   filters: {
@@ -182,8 +194,15 @@ export default {
     }
   },
   created: function() {
+    
     axios.get('/static/products.json').then(response => {
       this.products = response.data.products;
+      this.executionCount++;
+      for(let i = 0; i < this.products.length; i++) {
+        if (this.$route.params.id == this.products[i].id) {
+          this.products[i].price = this.$route.params.price;
+        }
+      }
       console.log(this.products);
       for(let i = 0; i < this.products.length; i++){
       this.reloadRemaindTime(this.products[i]);
